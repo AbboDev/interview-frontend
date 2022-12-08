@@ -1,23 +1,58 @@
 import './assets/scss/app.scss'
-import { node, NodeConfig } from './utilities/node'
+import { get } from './utilities/fetch'
+import { node } from './utilities/node'
 
 const app = document.querySelector<HTMLDivElement>('#app')
 
 if (app) {
-	const h1Config: NodeConfig = {
-		id: 'title',
-		text: 'Hello 24/Consulting'
-	}
-	const h1 = node('h1', h1Config)
+	app.appendChild(
+		node('h1', {
+			id: 'title',
+			text: 'TODO List'
+		})
+	)
 
-	const a = node('a', {
-		text: 'Github Repository',
-		attributes: {
-			href: 'https://github.com/24Consulting/interview-frontend',
-			target: '_blank'
+	const todos: Array<HTMLElement> = await get('/todo').then((response) => {
+		const nodes: Array<HTMLElement> = []
+		console.debug(response)
+
+		for (const data of response) {
+			nodes.push(
+				node('li', {
+					attributes: {
+						'data-id': data.id
+					},
+					children: [
+						node('input', {
+							attributes: {
+								type: 'checkbox'
+							},
+							props: {
+								checked: data.state === 'done',
+								indeterminate: data.state === 'doing'
+							}
+						}),
+						data.title
+					]
+				})
+			)
 		}
+
+		return nodes
 	})
 
-	app.appendChild(h1)
-	app.appendChild(a)
+	app.appendChild(
+		node('section', {
+			id: 'todo',
+			children: [
+				node('nav', {
+					text: 'TODO: qui andranno i filtri'
+				}),
+				node('ul', {
+					id: 'list',
+					children: todos
+				})
+			]
+		})
+	)
 }
