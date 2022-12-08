@@ -1,0 +1,26 @@
+@use 'sass:map';
+@use 'sass:list';
+
+@use '@css/globals/variables';
+
+@function css-color($name, $fallback...) {
+	$css: (--#{$name}-color);
+
+	@if map.has-key(variables.$colors, $name) {
+		$css: list.append(
+			$css,
+			map.get(variables.$colors, $name),
+			$separator: comma
+		);
+	} @else if list.length($fallback) == 1 {
+		$css: list.append($css, list.nth($fallback, 1), $separator: comma);
+	} @else if list.length($fallback) == 3 {
+		$css: list.append($css, rgb($fallback), $separator: comma);
+	}
+
+	@return var(#{$css});
+}
+
+@function hex-to-rgb($color) {
+	@return (red($color), green($color), blue($color));
+}

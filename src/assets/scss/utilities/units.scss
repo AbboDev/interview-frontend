@@ -1,0 +1,90 @@
+@use 'sass:math';
+@use 'sass:meta';
+@use 'sass:list';
+@use 'sass:string';
+
+@use '@css/globals/variables';
+
+@function ratio($size, $font: variables.$font-size) {
+	@return math.div($size, $font);
+}
+
+@function rem($size, $font: variables.$font-size) {
+	@return #{ratio(pixel($size), pixel($font))}rem;
+}
+
+@function pixel($size: variables.$font-size) {
+	@if meta.type-of($size) == number and math.is-unitless($size) {
+		@return $size * 1px;
+	}
+
+	@if meta.type-of($size) == string and string.index($size, 'rem') {
+		$rem: string.slice($size, 0, string.index($size, 'rem') - 1);
+
+		@return number($rem) * variables.$font-size;
+	}
+
+	@return $size;
+}
+
+@function unit($size: 1, $rem: true, $divide: false) {
+	$value: $size * variables.$unit;
+
+	@if $rem == pixel {
+		@return pixel($value);
+	} @else if $rem {
+		@return rem($value);
+	}
+
+	@return $value;
+}
+
+@function number($string) {
+	@if meta.type-of($string) == number {
+		@return $string;
+	}
+
+	$index: string.index($string, '.');
+	@if $index {
+		$int: string.slice($string, 0, $index - 1);
+		$float: string.slice($string, $index + 1);
+
+		// Gestisce i numeri con la virgola
+		/* stylelint-disable-next-line scss/operator-no-newline-after */
+		@return number($int) +
+			math.div(number($float), math.pow(10, string.length($float)));
+	}
+
+	// Matrices
+	$strings: '0' '1' '2' '3' '4' '5' '6' '7' '8' '9' '.';
+	$numbers: 0 1 2 3 4 5 6 7 8 9;
+
+	// Result
+	$result: 0;
+
+	// Looping through all characters
+	$is-decimal: false;
+	@for $i from 1 through string.length($string) {
+		$character: string.slice($string, $i, $i);
+		$index: list.index($strings, $character);
+
+		@if not $index {
+			@warn "Unknown character `#{$character}`.";
+			@return $result;
+		}
+
+		@if $character == '.' {
+			$is-decimal: true;
+		} @else {
+			$number: list.nth($numbers, $index);
+
+			@if $is-decimal {
+				$result: $result + math.div($number, 10);
+			} @else {
+				$result: $result * 10 + $number;
+			}
+		}
+	}
+
+	@return $result;
+}

@@ -1,8 +1,11 @@
+@use '@css/utilities/units';
+@use '@css/utilities/colors';
+
 #app {
 	font-family: Avenir, Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
-	color: #2c3e50;
-	margin-top: 60px;
+	color: colors.css-color(text, red);
+	margin-top: units.unit(8);
 }
