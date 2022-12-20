@@ -1,17 +1,30 @@
 @use '@css/utilities/units';
 @use '@css/utilities/colors';
+@use '@css/utilities/variables';
 
 #app {
-	font-family: Avenir, Helvetica, Arial, sans-serif;
+	font-family: variables.$font-family, Avenir, Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
 	color: rgb(colors.css-color(text));
 	margin-top: units.unit(8);
+	font-weight: 300;
 }
 
 h1 {
 	font-size: 3rem;
 	margin-bottom: units.unit();
 	color: rgb(colors.css-color(text));
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+b,
+strong {
+	font-weight: 700;
 }
