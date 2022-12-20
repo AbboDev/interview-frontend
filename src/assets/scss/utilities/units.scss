@@ -3,7 +3,7 @@
 @use 'sass:list';
 @use 'sass:string';
 
-@use '@css/globals/variables';
+@use '@css/utilities/variables';
 
 @function ratio($size, $font: variables.$font-size) {
 	@return math.div($size, $font);

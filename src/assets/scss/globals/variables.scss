@@ -1,5 +1,8 @@
-$unit: 8;
-$font-size: $unit * 2;
-$colors: (
-	text: #2c3e50
-);
+@use '@css/utilities/colors';
+@use '@css/utilities/variables';
+
+:root {
+	@each $name, $color in variables.$colors {
+		--#{"" + $name}-color: #{colors.hex-to-rgb($color)};
+	}
+}
