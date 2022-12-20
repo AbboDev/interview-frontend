@@ -1,0 +1,27 @@
+$transition-duration: 0.3s;
+$transition-timing-function: ease-in-out;
+$transition-delay: 0s;
+
+@mixin transition-properties($properties...) {
+	transition-property: #{$properties};
+}
+
+@mixin transition($properties...) {
+	@include transition-properties($properties);
+
+	transition-duration: $transition-duration;
+	transition-timing-function: $transition-timing-function;
+	transition-delay: $transition-delay;
+}
+
+@mixin fade-with-visibility($in: true) {
+	@include transition(opacity, visibility);
+
+	@if $in {
+		opacity: 1;
+		visibility: visible;
+	} @else {
+		opacity: 0;
+		visibility: hidden;
+	}
+}
