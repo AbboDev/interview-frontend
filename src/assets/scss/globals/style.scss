@@ -6,6 +6,12 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
-	color: colors.css-color(text, red);
+	color: rgb(colors.css-color(text));
 	margin-top: units.unit(8);
+}
+
+h1 {
+	font-size: 3rem;
+	margin-bottom: units.unit();
+	color: rgb(colors.css-color(text));
 }
