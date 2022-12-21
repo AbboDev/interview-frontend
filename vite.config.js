@@ -2,9 +2,9 @@
 
 import { defineConfig } from 'vite'
 
+import vue from '@vitejs/plugin-vue'
 import EslintPlugin from 'vite-plugin-eslint'
 import { VitePluginFonts } from 'vite-plugin-fonts'
-import StylelintPlugin from 'vite-plugin-stylelint'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires, no-undef
 const path = require('path')
@@ -17,7 +17,8 @@ export default defineConfig({
 		}
 	},
 	plugins: [
-		StylelintPlugin(),
+		vue(),
+		// StylelintPlugin(),
 		EslintPlugin(),
 		VitePluginFonts({
 			google: {
