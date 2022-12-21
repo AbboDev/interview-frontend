@@ -1,0 +1,31 @@
+@use '@css/utilities/units';
+@use '@css/utilities/colors';
+@use '@css/utilities/transitions' as t;
+
+.c-pagination {
+	$this: &;
+	$button: #{$this}__button;
+
+	margin: units.unit(2) auto 0;
+
+	#{$button} {
+		@include t.transition(background-color, color);
+
+		border-radius: 0;
+		border: 2px solid rgb(colors.css-color(test-color-4));
+		padding: 0 units.unit(1.5);
+		margin: 0 units.unit();
+		font-weight: 700;
+		text-align: center;
+		font-size: 2rem;
+		color: rgb(colors.css-color(test-color-4));
+		background-color: rgb(colors.css-color(test-color-2));
+		cursor: pointer;
+		user-select: none;
+
+		&:hover {
+			color: rgb(colors.css-color(test-color-3));
+			background-color: rgb(colors.css-color(test-color-4));
+		}
+	}
+}

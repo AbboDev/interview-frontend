@@ -13,18 +13,50 @@
 			</label>
 		</li>
 	</ul>
+
+	<div class="c-pagination">
+		<button class="c-pagination__button" @click="prevPage">&lt;</button>
+		<button class="c-pagination__button" @click="nextPage">&gt;</button>
+	</div>
 </template>
 
 <script setup lang="ts">
 import { TodoState, get, type Todo } from '@/utilities/fetch'
-import type { Ref } from 'vue'
-import { onMounted, ref } from 'vue'
+import { onMounted, reactive, ref, watch, type Ref } from 'vue'
+
+const pagination = reactive({
+	limit: 10,
+	page: 1
+})
 
 const items: Ref<Todo[]> = ref([])
 
-onMounted(async () => {
-	items.value = await get('/todo')
-})
+async function fetchTodo(): Promise<void> {
+	items.value = await get(
+		`/todo?_limit=${pagination.limit}&_page=${pagination.page}`
+	)
+}
+
+watch(
+	() => pagination.page,
+	async () => {
+		fetchTodo()
+	}
+)
+
+function prevPage(): void {
+	if (pagination.page > 1) {
+		--pagination.page
+	}
+}
+
+function nextPage(): void {
+	if (items.value.length >= pagination.limit) {
+		++pagination.page
+	}
+}
+
+onMounted(fetchTodo)
 </script>
 
 <style lang="scss">
