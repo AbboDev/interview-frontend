@@ -15,3 +15,15 @@ export async function get(
 
 	return response.json()
 }
+
+export enum TodoState {
+	TODO = 'todo',
+	DOING = 'doing',
+	DONE = 'done'
+}
+
+export interface Todo {
+	id: number
+	title: string
+	state: TodoState
+}
